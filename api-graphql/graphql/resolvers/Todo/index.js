@@ -36,7 +36,6 @@ export default {
     },
     updateTodo: async (parent, { _id, todo }, context, info) => {
       return new Promise((resolve, reject) => {
-        //User.findByIdAndUpdate(_id, { $set: { ...user } }, { new: true }).exec(
         // Todo.findOneAndUpdate(_id, { $set: { ...todo } }, {new: true, useFindAndModify: false}).exec(
         // Todo.findOneAndUpdate(_id, { $set: { ...todo } }, {new: true}).exec(
         Todo.findByIdAndUpdate(_id, { $set: { ...todo } }).exec(

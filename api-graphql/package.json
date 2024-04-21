@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run server",
-    "server": "nodemon --exec babel-node index.js"
+    "server": "nodemon --exec babel-node ./server/index.js"
   },
   "keywords": [
     "graphql",
@@ -13,7 +13,7 @@
     "boilerplate",
     "server"
   ],
-  "author": "Leonardo Maldonado <leonardomso11@gmail.com>",
+  "author": "Steve Phelps",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.1.2",

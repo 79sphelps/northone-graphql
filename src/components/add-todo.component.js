@@ -1,54 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-date-picker";
-
+import { useNavigate } from "react-router-dom";
 import { 
-  // addTodo, 
   setTodoToAdd, 
   setSubmitted 
 } from "../redux/actions";
 import { selectTodoToAdd, selectSubmitted } from "../redux/selectors";
 import { formatDate } from "../redux/utils";
-
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { ADD_TODO, GET_TODOS } from "../queries";
-import { Spinner } from 'reactstrap';
-
 
 const AddTodo = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   let TodoToAdd = useSelector(selectTodoToAdd);
   const submitted = useSelector(selectSubmitted);
   const [dateValue, onChange] = useState(new Date());
 
-  const [createTodo] = useMutation(ADD_TODO);
-
-
-
-  // useEffect(() => {
-  //   const storedTodoToAdd = JSON.parse(localStorage.getItem("todoToAdd"));
-  //   if (storedTodoToAdd) {
-  //     dispatch(setTodoToAdd(storedTodoToAdd));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!TodoToAdd) {
-  //     let todoToAdd = {
-  //       id: null,
-  //       title: "",
-  //       description: "",
-  //       status: false,
-  //       dueDate: formatDate(new Date()),
-  //     };
-  //     localStorage.setItem("todoToAdd", JSON.stringify(todoToAdd));
-  //     TodoToAdd = todoToAdd;
-  //   } else {
-  //     localStorage.setItem("todoToAdd", JSON.stringify(TodoToAdd));
-  //   }
-  // }, [TodoToAdd]);
-
-
+  const [createTodo] = useMutation(ADD_TODO, {
+    refetchQueries: [{ query: GET_TODOS}]
+  });
 
   if (!TodoToAdd) {
     let todoToAdd = JSON.parse(localStorage.getItem("todoToAdd"));
@@ -89,14 +61,9 @@ const AddTodo = () => {
       status: false,
       dueDate: dateValue,
     };
-    // dispatch(addTodo(data));
     createTodo({ variables: { id: '', title: data.title, description: data.description, status: data.status, dueDate: data.dueDate }})
     localStorage.removeItem("todoToAdd");
-    // props.history.push("/todos");
-
-    // const getTodos = useQuery(GET_TODOS);
-    // if (getTodos.loading) return <Spinner color="dark" />;
-    // if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
+    navigate("/");
   };
 
   const newTodo = () => {

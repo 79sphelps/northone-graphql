@@ -56,7 +56,7 @@ const TodosList = () => {
 
 
   dispatch(setTodos(getTodos.data.findAll))
-  // console.log(JSON.stringify(getTodos.data, null, 2))
+  console.log(JSON.stringify(getTodos.data.findAll, null, 2))
   // const todos = JSON.stringify(getTodos.data.findAll, null, 2)
   // const todos = getTodos.data.findAll
   // console.log(todos)

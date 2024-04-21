@@ -3,21 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-date-picker";
-
-import {
-  setCurrentTodo,
-  setMessage,
-  // updateTodo,
-  // deleteTodo,
-} from "../redux/actions";
+import { useNavigate } from "react-router-dom";
+import { setCurrentTodo, setMessage } from "../redux/actions";
 import { selectCurrentTodo, selectMessage } from "../redux/selectors";
-
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from "@apollo/react-hooks";
 import { EDIT_TODO, DELETE_TODO, GET_TODOS } from "../queries";
-// import { Spinner } from 'reactstrap';
-
 
 const Todo = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentTodo = useSelector(selectCurrentTodo);
   const message = useSelector(selectMessage);
@@ -27,9 +20,12 @@ const Todo = () => {
     )
   );
 
-  const [updateTodo] = useMutation(EDIT_TODO);
-  const [deleteTodo] = useMutation(DELETE_TODO);
-
+  const [updateTodo] = useMutation(EDIT_TODO, {
+    refetchQueries: [{ query: GET_TODOS }],
+  });
+  const [deleteTodo] = useMutation(DELETE_TODO, {
+    refetchQueries: [{ query: GET_TODOS }],
+  });
 
   useEffect(() => {
     clearMessage();
@@ -56,15 +52,21 @@ const Todo = () => {
     if (status !== null) {
       currentTodo.status = status;
     }
-    // dispatch(updateTodo({ id: currentTodo._id, todo: currentTodo }));
-    updateTodo({ variables: { id: currentTodo._id, title: currentTodo.title, description: currentTodo.description, status: currentTodo.status, dueDate: currentTodo.dueDate  }})
-
+    updateTodo({
+      variables: {
+        id: currentTodo._id,
+        title: currentTodo.title,
+        description: currentTodo.description,
+        status: currentTodo.status,
+        dueDate: currentTodo.dueDate,
+      },
+    });
+    navigate("/");
   };
 
   const deleteTodoUnderEdit = () => {
-    // dispatch(deleteTodo({ id: currentTodo._id }));
-    deleteTodo({ variables: { id: currentTodo._id }});
-
+    deleteTodo({ variables: { id: currentTodo._id } });
+    navigate("/");
   };
 
   return (
@@ -135,7 +137,7 @@ const Todo = () => {
             className="btn btn-danger mr-2"
             onClick={() => deleteTodoUnderEdit()}
           >
-            Delete{' '}<FontAwesomeIcon icon={faTrash} />
+            Delete <FontAwesomeIcon icon={faTrash} />
           </button>
 
           <button

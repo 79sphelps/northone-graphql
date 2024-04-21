@@ -46,7 +46,7 @@
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "dev-graphql": "concurrently \"node ./api-graphql/server/index.js\" \"npm run client\"",
+    "dev-graphql": "concurrently \"nodemon --exec babel-node ./api-graphql/index.js\" \"npm run client\"",
     "server": "node server.js",
     "server-graphql": "node ./api-graphql/server/index.js",
     "client": "react-scripts start",
