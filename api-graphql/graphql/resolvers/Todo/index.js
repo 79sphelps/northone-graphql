@@ -3,8 +3,27 @@ import Todo from "../../../server/models/Todo";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   Query: {
-    findOne: async (parent, { _id }, context, info) => {
-      return await Todo.findOne({ _id }).exec();
+    // findOne: async (parent, { _id }, context, info) => {
+    //   return await Todo.findOne({ _id }).exec();
+    // },
+    findOne: async (parent, { title }, context, info) => {
+      if (title === "") {
+        const todos = await Todo.find({})
+        .populate()
+        .exec();
+      return todos.map(u => ({
+        _id: u._id.toString(),
+        title: u.title,
+        description: u.description,
+        status: u.status,
+        dueDate: u.dueDate
+      }));
+      }
+
+      // return await Todo.findOne({ title: title }).exec();
+      // const doc = await Todo.findOne({ title: title }).exec();
+      const doc = await Todo.find({"title": { "$regex": title, "$options": "i" }})
+      return doc;
     },
     findAll: async (parent, args, context, info) => {
       const todos = await Todo.find({})

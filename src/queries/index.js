@@ -20,9 +20,9 @@ export const GET_TODOS = gql`
 //   }
 // `;
 
-export const VIEW_TODOS = gql`
-  query ($id: ID!){
-    todo(_id: $id) {
+export const VIEW_TODO = gql`
+  query ($title: String!){
+    findOne(title: $title) {
       _id,
       title,
       description,
@@ -31,6 +31,19 @@ export const VIEW_TODOS = gql`
     }
   }
 `;
+
+
+// export const VIEW_TODO = gql`
+//   query ($id: ID!){
+//     todo(_id: $id) {
+//       _id,
+//       title,
+//       description,
+//       status,
+//       dueDate
+//     }
+//   }
+// `;
 
 export const ADD_TODO = gql`
   mutation($id: String!, $title: String!, $description: String!, $status: Boolean!, $dueDate: String!) {

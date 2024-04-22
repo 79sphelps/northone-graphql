@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faEdit, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-date-picker";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { GET_TODOS, VIEW_TODO } from "../queries";
+import { Spinner } from 'reactstrap';
 import {
-  // getTodos,
   setTodos,
   deleteTodos,
   findByTitle,
@@ -24,17 +25,6 @@ import {
 } from "../redux/selectors";
 import { formatDate } from "../redux/utils";
 
-
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { 
-  // ADD_TODO, 
-  GET_TODOS, 
-  // VIEW_TODOS, 
-  // EDIT_TODO, 
-  // DELETE_TODO 
-} from "../queries";
-import { Spinner } from 'reactstrap';
-
 const TodosList = () => {
   const dispatch = useDispatch();
   const datePicker = useRef({ isOpen: true });
@@ -42,26 +32,34 @@ const TodosList = () => {
   const currentTodo = useSelector(selectCurrentTodo);
   const currentIndex = useSelector(selectCurrentIndex);
   const searchTitle = useSelector(selectSearchTitle);
+  const getTodos = useQuery(GET_TODOS, {
+    onCompleted: data => {
+      dispatch(setTodos(data.findAll))
+    }
+  });
 
-  const getTodos = useQuery(GET_TODOS);
+  const [getTodo] = useLazyQuery(VIEW_TODO, {
+    onCompleted: someData => {
+      // console.log(someData);
+      console.log(someData.findOne)
+      console.log(typeof someData.findOne)
 
-  // useEffect(() => {
-  //   retrieveTodos();
-  //   checkCurrentIndex();
-  // }, []);
+      if (!Array.isArray(someData.findOne)) {
+        dispatch(setTodos([someData.findOne]));
+      } else {
+        dispatch(setTodos(someData.findOne));
+      }
 
+      // dispatch(setTodos(someData.findOne));
+      // console.log(todos)
+    }
+  });
 
   if (getTodos.loading) return <Spinner color="dark" />;
   if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
 
-
-  dispatch(setTodos(getTodos.data.findAll))
-  console.log(JSON.stringify(getTodos.data.findAll, null, 2))
-  // const todos = JSON.stringify(getTodos.data.findAll, null, 2)
-  // const todos = getTodos.data.findAll
-  // console.log(todos)
-
-
+  // dispatch(setTodos(getTodos.data.findAll))
+  // console.log(JSON.stringify(getTodos.data.findAll, null, 2))
 
   const mapTodoEventsToCalendar = (arr = []) => {
     const result = arr.map((obj) => {
@@ -73,17 +71,6 @@ const TodosList = () => {
     return result;
   };
 
-  // const retrieveTodos = () => {
-  //   dispatch(getTodos());
-  // };
-
-  // const checkCurrentIndex = () => {
-  //   if (!currentIndex) {
-  //     // dispatch(setCurrentTodo(JSON.parse(localStorage.getItem('currentTodo'))));
-  //     // dispatch(setCurrentIndex(JSON.parse(localStorage.getItem('currentIndex'))));
-  //   }
-  // };
-
   const onChangeSearchTitle = (event) => {
     event.preventDefault(); // prevent a browser reload/refresh
     dispatch(setSearchTitle(event.target.value));
@@ -91,7 +78,6 @@ const TodosList = () => {
 
   const refreshList = () => {
     // retrieveTodos();
-
     dispatch(setCurrentTodo(null));
     dispatch(setCurrentIndex(-1));
   };
@@ -102,8 +88,8 @@ const TodosList = () => {
     if (datePicker && datePicker.current && datePicker.current.openCalendar) {
       datePicker.current.openCalendar();
     }
-    localStorage.setItem("currentTodo", JSON.stringify(todo));
-    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+    // localStorage.setItem("currentTodo", JSON.stringify(todo));
+    // localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
   };
 
   const removeAllTodos = () => {
@@ -112,8 +98,13 @@ const TodosList = () => {
   };
 
   const findItemByTitle = () => {
-    dispatch(findByTitle(searchTitle));
+    // dispatch(findByTitle(searchTitle));
+    getTodo({variables: { title: searchTitle }})
+    // dispatch(setTodos(getTodo({variables: { title: searchTitle }})))
+    if (getTodo.loading) return <Spinner color="dark" />;
+    if (getTodo.error) return <React.Fragment>Error :(</React.Fragment>;
     // dispatch(setCurrentTodo(null));
+    // dispatch(setTodos(getTodo.data))
   };
 
   return (

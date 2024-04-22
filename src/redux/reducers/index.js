@@ -71,6 +71,7 @@ function rootReducer(state = initialState, action) {
       return { ...state, submitted: action.payload };
 
     case SET_TODOS:
+      console.log('-- setting todos: ', action.payload)
       return { ...state, todos: action.payload };
 
     case GET_TODOS_SUCCESSFUL:

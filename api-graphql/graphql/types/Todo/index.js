@@ -9,7 +9,7 @@ export default `
   }
 
   type Query {
-    findOne(_id: ID!): Todo!
+    findOne(title: String!): Todo!
     findAll: [Todo!]!
   }
 
