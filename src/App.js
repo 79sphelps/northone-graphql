@@ -1,15 +1,24 @@
-import { Switch, Route, Link, Routes } from "react-router-dom";
+import React from "react";
+import { 
+  // Switch, 
+  Route, 
+  Link, 
+  Routes 
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { faHome, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import { setSubmitted, setMessage } from "./redux/actions";
+import { setSubmitted, setMessage, setTodos } from "./redux/actions";
 import AddTodo from "./components/add-todo.component";
 import Todo from "./components/todo.component";
 import TodosList from "./components/todos-list.component";
 
+import { GET_TODOS } from "./queries";
+import { useLazyQuery } from '@apollo/react-hooks';
+import { Spinner } from 'reactstrap';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,6 +26,15 @@ const App = () => {
     dispatch(setSubmitted(false));
     dispatch(setMessage(""));
   };
+
+  const getTodos = useLazyQuery(GET_TODOS, {
+    onCompleted: data => {
+      dispatch(setTodos(data.findAll))
+    }
+  });
+
+  if (getTodos.loading) return <Spinner color="dark" />;
+  if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
 
   return (
     <div>
@@ -27,7 +45,7 @@ const App = () => {
 
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/"} className="nav-link">
+            <Link to={"/"} onClick={() => getTodos()} className="nav-link">
               To Do List
             </Link>
           </li>

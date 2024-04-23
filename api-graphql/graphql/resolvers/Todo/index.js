@@ -7,36 +7,38 @@ export default {
     //   return await Todo.findOne({ _id }).exec();
     // },
     findOne: async (parent, { title }, context, info) => {
+      // return await Todo.findOne({ title: title }).exec();
+
+      // const doc = await Todo.findOne({ title: title }).exec();
+      // return doc;
+      let todos;
+
       if (title === "") {
-        const todos = await Todo.find({})
-        .populate()
-        .exec();
-      return todos.map(u => ({
-        _id: u._id.toString(),
-        title: u.title,
-        description: u.description,
-        status: u.status,
-        dueDate: u.dueDate
-      }));
+        todos = await Todo.find({}).populate().exec();
+      } else {
+        todos = await Todo.find({ title: { $regex: title, $options: "i" } })
+          .populate()
+          .exec();
       }
 
-      // return await Todo.findOne({ title: title }).exec();
-      // const doc = await Todo.findOne({ title: title }).exec();
-      const doc = await Todo.find({"title": { "$regex": title, "$options": "i" }})
-      return doc;
-    },
-    findAll: async (parent, args, context, info) => {
-      const todos = await Todo.find({})
-        .populate()
-        .exec();
-      return todos.map(u => ({
+      return todos.map((u) => ({
         _id: u._id.toString(),
         title: u.title,
         description: u.description,
         status: u.status,
-        dueDate: u.dueDate
+        dueDate: u.dueDate,
       }));
-    }
+    },
+    findAll: async (parent, args, context, info) => {
+      const todos = await Todo.find({}).populate().exec();
+      return todos.map((u) => ({
+        _id: u._id.toString(),
+        title: u.title,
+        description: u.description,
+        status: u.status,
+        dueDate: u.dueDate,
+      }));
+    },
   },
   Mutation: {
     createTodo: async (parent, { todo }, context, info) => {
@@ -44,7 +46,7 @@ export default {
         title: todo.title,
         description: todo.description,
         status: todo.status,
-        dueDate: todo.dueDate
+        dueDate: todo.dueDate,
       });
 
       return new Promise((resolve, reject) => {
@@ -57,17 +59,15 @@ export default {
       return new Promise((resolve, reject) => {
         // Todo.findOneAndUpdate(_id, { $set: { ...todo } }, {new: true, useFindAndModify: false}).exec(
         // Todo.findOneAndUpdate(_id, { $set: { ...todo } }, {new: true}).exec(
-        Todo.findByIdAndUpdate(_id, { $set: { ...todo } }).exec(
-          (err, res) => {
-            err ? reject(err) : resolve(res);
-          }
-        );
+        Todo.findByIdAndUpdate(_id, { $set: { ...todo } }).exec((err, res) => {
+          err ? reject(err) : resolve(res);
+        });
       });
     },
     deleteTodo: async (parent, { _id }, context, info) => {
       return new Promise((resolve, reject) => {
         Todo.findByIdAndDelete(_id).exec((err, res) => {
-          err ? reject(err) : resolve({_id: _id});
+          err ? reject(err) : resolve({ _id: _id });
         });
       });
     },
@@ -89,5 +89,5 @@ export default {
       return await Comment.find({ author: _id });
     }
     */
-  }
+  },
 };

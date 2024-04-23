@@ -12,7 +12,6 @@ import { Spinner } from 'reactstrap';
 import {
   setTodos,
   deleteTodos,
-  findByTitle,
   setSearchTitle,
   setCurrentIndex,
   setCurrentTodo,
@@ -40,18 +39,12 @@ const TodosList = () => {
 
   const [getTodo] = useLazyQuery(VIEW_TODO, {
     onCompleted: someData => {
-      // console.log(someData);
-      console.log(someData.findOne)
-      console.log(typeof someData.findOne)
-
       if (!Array.isArray(someData.findOne)) {
         dispatch(setTodos([someData.findOne]));
       } else {
         dispatch(setTodos(someData.findOne));
       }
-
       // dispatch(setTodos(someData.findOne));
-      // console.log(todos)
     }
   });
 

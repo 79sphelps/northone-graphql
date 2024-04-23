@@ -9,7 +9,7 @@ export default `
   }
 
   type Query {
-    findOne(title: String!): Todo!
+    findOne(title: String!): [Todo!]!
     findAll: [Todo!]!
   }
 
@@ -35,7 +35,7 @@ export default `
   }
 `;
 
-
+//     findOne(title: String!): Todo! | [Todo!]!
 
 // export default `
 //   type Todo {
