@@ -11,7 +11,7 @@ import { GET_TODOS, VIEW_TODO } from "../queries";
 import { Spinner } from 'reactstrap';
 import {
   setTodos,
-  deleteTodos,
+  // deleteTodos,
   setSearchTitle,
   setCurrentIndex,
   setCurrentTodo,
@@ -33,6 +33,7 @@ const TodosList = () => {
   const searchTitle = useSelector(selectSearchTitle);
   const getTodos = useQuery(GET_TODOS, {
     onCompleted: data => {
+      console.log('--- fetching all ', data.findAll)
       dispatch(setTodos(data.findAll))
     }
   });
@@ -47,9 +48,6 @@ const TodosList = () => {
       // dispatch(setTodos(someData.findOne));
     }
   });
-
-  if (getTodos.loading) return <Spinner color="dark" />;
-  if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
 
   // dispatch(setTodos(getTodos.data.findAll))
   // console.log(JSON.stringify(getTodos.data.findAll, null, 2))
@@ -86,7 +84,7 @@ const TodosList = () => {
   };
 
   const removeAllTodos = () => {
-    dispatch(deleteTodos());
+    // dispatch(deleteTodos());
     refreshList();
   };
 
@@ -99,6 +97,10 @@ const TodosList = () => {
     // dispatch(setCurrentTodo(null));
     // dispatch(setTodos(getTodo.data))
   };
+
+
+  if (getTodos.loading) return <Spinner color="dark" />;
+  if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
 
   return (
     <div className="list row">

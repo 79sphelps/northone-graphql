@@ -61,12 +61,16 @@ const Todo = () => {
         dueDate: currentTodo.dueDate,
       },
     });
-    navigate("/");
+    setTimeout(() => {
+      navigate('/')
+    }, 500)
   };
 
   const deleteTodoUnderEdit = () => {
     deleteTodo({ variables: { id: currentTodo._id } });
-    navigate("/");
+    setTimeout(() => {
+      navigate('/')
+    }, 500)
   };
 
   return (

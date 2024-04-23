@@ -32,7 +32,6 @@ export const VIEW_TODO = gql`
   }
 `;
 
-
 // export const VIEW_TODO = gql`
 //   query ($id: ID!){
 //     todo(_id: $id) {

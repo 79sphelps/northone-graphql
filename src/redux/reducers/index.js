@@ -14,12 +14,12 @@ import {
   IS_FINDING,
   IS_UPDATING,
   API_ERRORED,
-  GET_TODOS_SUCCESSFUL,
-  DELETE_TODOS_SUCCESSFUL,
-  UPDATE_TODO_SUCCESSFUL,
-  DELETE_TODO_SUCCESSFUL,
-  ADD_TODO_SUCCESSFUL,
-  FIND_BY_TITLE_SUCCESSFUL,
+  // GET_TODOS_SUCCESSFUL,
+  // DELETE_TODOS_SUCCESSFUL,
+  // UPDATE_TODO_SUCCESSFUL,
+  // DELETE_TODO_SUCCESSFUL,
+  // ADD_TODO_SUCCESSFUL,
+  // FIND_BY_TITLE_SUCCESSFUL,
 } from "../constants/action.types";
 import { deepCopy } from '../utils';
 
@@ -58,8 +58,8 @@ function rootReducer(state = initialState, action) {
     case SET_SEARCH_TITLE:
       return { ...state, searchTitle: action.payload };
 
-    case FIND_BY_TITLE_SUCCESSFUL:
-      return { ...state, isFinding: false, todos: action.payload };
+    // case FIND_BY_TITLE_SUCCESSFUL:
+    //   return { ...state, isFinding: false, todos: action.payload };
 
     case SET_CURRENT_INDEX:
       return { ...state, currentIndex: action.payload };
@@ -71,34 +71,33 @@ function rootReducer(state = initialState, action) {
       return { ...state, submitted: action.payload };
 
     case SET_TODOS:
-      console.log('-- setting todos: ', action.payload)
       return { ...state, todos: action.payload };
 
-    case GET_TODOS_SUCCESSFUL:
-      return { ...state, isLoading: false, todos: action.payload };
+    // case GET_TODOS_SUCCESSFUL:
+    //   return { ...state, isLoading: false, todos: action.payload };
 
-    case ADD_TODO_SUCCESSFUL:
-      return { ...state, isAdding: false, todos: state.todos.concat(action.payload) };
+    // case ADD_TODO_SUCCESSFUL:
+    //   return { ...state, isAdding: false, todos: state.todos.concat(action.payload) };
 
-    case UPDATE_TODO_SUCCESSFUL:
-      mappings = deepCopy(state.todos);
-      const idx = mappings.findIndex((t) => t._id === action.payload.id);
+    // case UPDATE_TODO_SUCCESSFUL:
+    //   mappings = deepCopy(state.todos);
+    //   const idx = mappings.findIndex((t) => t._id === action.payload.id);
 
-      if (mappings && mappings[idx]) {
-        let todo = action.payload.todo;
-        todo.dueDate = todo.dueDate.toISOString();
-        delete todo.id;
-        mappings[idx] = { ...mappings[idx], ...todo };
-      }
+    //   if (mappings && mappings[idx]) {
+    //     let todo = action.payload.todo;
+    //     todo.dueDate = todo.dueDate.toISOString();
+    //     delete todo.id;
+    //     mappings[idx] = { ...mappings[idx], ...todo };
+    //   }
 
-      return { ...state, isUpdating: false, todos: mappings };
+    //   return { ...state, isUpdating: false, todos: mappings };
 
-    case DELETE_TODO_SUCCESSFUL:
-      mappings = state.todos.filter((t) => t._id !== action.payload.id);
-      return { ...state, isDeleting: false, todos: mappings };
+    // case DELETE_TODO_SUCCESSFUL:
+    //   mappings = state.todos.filter((t) => t._id !== action.payload.id);
+    //   return { ...state, isDeleting: false, todos: mappings };
 
-    case DELETE_TODOS_SUCCESSFUL:
-      return { ...state, isDeletingAll: false, todos: action.payload };
+    // case DELETE_TODOS_SUCCESSFUL:
+    //   return { ...state, isDeletingAll: false, todos: action.payload };
 
     // case DATA_LOADED:
     //   return { ...state, isLoading: false };

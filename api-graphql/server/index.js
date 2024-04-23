@@ -1,16 +1,12 @@
 import { GraphQLServer, PubSub } from "graphql-yoga";
 import mongoose from "mongoose";
-
 import schema from "../graphql/";
 import { models } from "./config/db/";
 require("dotenv").config();
 
-
-
 // const { mongoURI: db } = process.env;
 const db =  "mongodb://localhost/northOneToDos";
 // const db = "mongodb+srv://admin:1234qwer@cluster0.su6uv.mongodb.net/NorthOne?retryWrites=true&w=majority";
-
 
 const pubsub = new PubSub();
 
