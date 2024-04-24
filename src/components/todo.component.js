@@ -4,7 +4,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
-import { setCurrentTodo, setMessage, updateTodo, deleteTodo } from "../redux/actions";
+import { setCurrentTodo, setMessage, updateTodo, updateTodoSuccessful, deleteTodo, deleteTodoSuccessful } from "../redux/actions";
 import { selectCurrentTodo, selectMessage } from "../redux/selectors";
 import { useMutation } from "@apollo/react-hooks";
 import { EDIT_TODO, DELETE_TODO, GET_TODOS } from "../queries";
@@ -52,7 +52,7 @@ const Todo = () => {
     if (status !== null) {
       currentTodo.status = status;
     }
-    updateTodoMutation({
+    const response = updateTodoMutation({
       variables: {
         id: currentTodo._id,
         title: currentTodo.title,
@@ -61,6 +61,18 @@ const Todo = () => {
         dueDate: currentTodo.dueDate,
       },
     });
+
+    // response.then(res => { 
+    //   if (res.errors) {
+
+    //   } else {
+    //     setTimeout(() => {
+    //       dispatch(updateTodo(currentTodo))
+    //     }, 500);
+    //     navigate('/');
+    //   }
+    // })
+
     setTimeout(() => {
       dispatch(updateTodo(currentTodo))
     }, 500);

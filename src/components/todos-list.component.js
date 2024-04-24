@@ -15,7 +15,8 @@ import {
   setSearchTitle,
   setCurrentIndex,
   setCurrentTodo,
-  setIsFetching
+  setIsFetching,
+  getTodosSuccessful,
 } from "../redux/actions";
 import {
   selectTodos,
@@ -36,6 +37,7 @@ const TodosList = () => {
     onCompleted: data => {
       dispatch(setTodos(data.findAll))
       dispatch(setIsFetching(false))
+      dispatch(getTodosSuccessful("Retrieved todos successfully!"))
     }
   });
 

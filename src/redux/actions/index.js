@@ -16,7 +16,7 @@ import {
   GET_SUBMITTED,
   SET_TODOS,
   // GET_TODOS,
-  // GET_TODOS_SUCCESSFUL,
+  GET_TODOS_SUCCESSFUL,
   // GET_TODO,
   ADD_TODO,
   ADD_TODO_SUCCESSFUL,
@@ -97,9 +97,9 @@ const setTodos = (payload) => {
 //   return { type: GET_TODOS };
 // };
 
-// const getTodosSuccessful = (payload) => {
-//   return { type: GET_TODOS_SUCCESSFUL };
-// };
+const getTodosSuccessful = (payload) => {
+  return { type: GET_TODOS_SUCCESSFUL };
+};
 
 // const getTodo = (payload) => {
 //   return { type: GET_TODO, payload };
@@ -157,7 +157,7 @@ export {
   getSubmitted,
   setTodos,
   // getTodos,
-  // getTodosSuccessful,
+  getTodosSuccessful,
   deleteTodosSuccessful,
   updateTodoSuccessful,
   deleteTodoSuccessful,

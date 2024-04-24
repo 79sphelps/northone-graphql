@@ -20,7 +20,7 @@ export const SET_CURRENT_INDEX = "SET_CURRENT_INDEX";
 export const GET_CURRENT_INDEX = "GET_CURRENT_INDEX";
 
 // export const GET_TODOS = "GET_TODOS";
-// export const GET_TODOS_SUCCESSFUL = "GET_TODOS_SUCCESSFUL";
+export const GET_TODOS_SUCCESSFUL = "GET_TODOS_SUCCESSFUL";
 export const SET_TODOS = "SET_TODOS";
 
 // export const GET_TODO = "GET_TODO";

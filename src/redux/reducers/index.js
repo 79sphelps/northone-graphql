@@ -13,7 +13,7 @@ import {
   IS_FINDING,
   IS_UPDATING,
   API_ERRORED,
-  // GET_TODOS_SUCCESSFUL,
+  GET_TODOS_SUCCESSFUL,
   DELETE_TODOS_SUCCESSFUL,
   UPDATE_TODO,
   UPDATE_TODO_SUCCESSFUL,
@@ -75,8 +75,8 @@ function rootReducer(state = initialState, action) {
     case SET_TODOS:
       return { ...state, todos: action.payload };
 
-    // case GET_TODOS_SUCCESSFUL:
-    //   return { ...state, isLoading: false, todos: action.payload };
+    case GET_TODOS_SUCCESSFUL:
+      return { ...state, isLoading: false };
 
     case ADD_TODO:
       return { ...state, isAdding: true, todos: state.todos.concat(action.payload) };
