@@ -32,9 +32,10 @@ export default `
     createTodo(todo: CreateTodoInput): Todo!
     updateTodo(_id: String!, todo: UpdateTodoInput!): Todo!
     deleteTodo(_id: String!): Todo!
+    deleteAll(_id: String!): Todo
   }
 `;
-
+//     deleteAll()
 //     findOne(title: String!): Todo! | [Todo!]!
 
 // export default `

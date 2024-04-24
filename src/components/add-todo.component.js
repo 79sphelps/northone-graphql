@@ -65,6 +65,8 @@ const AddTodo = () => {
     createTodo({ variables: { id: '', title: data.title, description: data.description, status: data.status, dueDate: data.dueDate }})
     setTimeout(() => {
       dispatch(addTodo(data))
+      dispatch(setTodoToAdd(initialTodoState));
+      dispatch(setSubmitted(false));
     }, 500)
     // localStorage.removeItem("todoToAdd");
     navigate('/')

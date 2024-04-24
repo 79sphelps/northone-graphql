@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-date-picker";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import { GET_TODOS, VIEW_TODO } from "../queries";
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { GET_TODOS, VIEW_TODO, DELETE_ALL } from "../queries";
 import { Spinner } from 'reactstrap';
 import {
   setTodos,
@@ -33,6 +33,7 @@ const TodosList = () => {
   const currentTodo = useSelector(selectCurrentTodo);
   const currentIndex = useSelector(selectCurrentIndex);
   const searchTitle = useSelector(selectSearchTitle);
+
   const getTodos = useQuery(GET_TODOS, {
     onCompleted: data => {
       dispatch(setTodos(data.findAll))
@@ -49,6 +50,16 @@ const TodosList = () => {
         dispatch(setTodos(someData.findOne));
       }
     }
+  });
+
+  // const [deleteAll] = useLazyQuery(DELETE_ALL, {
+  //   onCompleted: () => {
+  //       dispatch(setTodos([]));
+  //   }
+  // });
+  const [deleteAll] = useMutation(DELETE_ALL, {
+    onCompleted: () => dispatch(setTodos([])),
+    refetchQueries: [{ query: GET_TODOS }],
   });
 
   // dispatch(setTodos(getTodos.data.findAll))
@@ -86,7 +97,7 @@ const TodosList = () => {
   };
 
   const removeAllTodos = () => {
-    // dispatch(deleteTodos());
+    deleteAll({ variables: { id: "" } });
     refreshList();
   };
 

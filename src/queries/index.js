@@ -98,6 +98,12 @@ export const DELETE_TODO = gql`
   }
 `;
 
+export const DELETE_ALL = gql`
+  mutation($id: String!) {
+    deleteAll(_id: $id) { _id }
+  }
+`;
+
 // export const DELETE_USER = gql`
 //   mutation($id: Int) {
 //     deleteUser(_id: $id)

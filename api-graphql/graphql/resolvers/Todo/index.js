@@ -71,13 +71,13 @@ export default {
         });
       });
     },
-    // deleteAll: async (parent, { _id }, context, info) => {
-    //   return new Promise((resolve, reject) => {
-    //     Todo.findByIdAndDelete(_id).exec((err, res) => {
-    //       err ? reject(err) : resolve({_id: _id});
-    //     });
-    //   });
-    // }
+    deleteAll: async (parent, {_id}, context, info) => {
+      return new Promise((resolve, reject) => {
+        Todo.deleteMany({}).exec((err, res) => {
+          err ? reject(err) : resolve({ _id: "1"});
+        });
+      });
+    }
   },
   Todo: {
     /*
