@@ -6,7 +6,6 @@ import {
   SET_MESSAGE,
   SET_SUBMITTED,
   SET_TODOS,
-  // DATA_LOADED,
   IS_FETCHING,
   IS_ADDING,
   IS_DELETING,
@@ -15,15 +14,18 @@ import {
   IS_UPDATING,
   API_ERRORED,
   // GET_TODOS_SUCCESSFUL,
-  // DELETE_TODOS_SUCCESSFUL,
-  // UPDATE_TODO_SUCCESSFUL,
-  // DELETE_TODO_SUCCESSFUL,
-  // ADD_TODO_SUCCESSFUL,
+  DELETE_TODOS_SUCCESSFUL,
+  UPDATE_TODO,
+  UPDATE_TODO_SUCCESSFUL,
+  DELETE_TODO,
+  DELETE_TODO_SUCCESSFUL,
+  ADD_TODO,
+  ADD_TODO_SUCCESSFUL,
   // FIND_BY_TITLE_SUCCESSFUL,
 } from "../constants/action.types";
 import { deepCopy } from '../utils';
 
-const initialState = {
+export const initialState = {
   todos: [],
   currentTodo: null,
   todoToAdd: null,
@@ -76,34 +78,38 @@ function rootReducer(state = initialState, action) {
     // case GET_TODOS_SUCCESSFUL:
     //   return { ...state, isLoading: false, todos: action.payload };
 
-    // case ADD_TODO_SUCCESSFUL:
-    //   return { ...state, isAdding: false, todos: state.todos.concat(action.payload) };
+    case ADD_TODO:
+      return { ...state, isAdding: true, todos: state.todos.concat(action.payload) };
 
-    // case UPDATE_TODO_SUCCESSFUL:
-    //   mappings = deepCopy(state.todos);
-    //   const idx = mappings.findIndex((t) => t._id === action.payload.id);
+    case ADD_TODO_SUCCESSFUL:
+      return { ...state, isAdding: false };
 
-    //   if (mappings && mappings[idx]) {
-    //     let todo = action.payload.todo;
-    //     todo.dueDate = todo.dueDate.toISOString();
-    //     delete todo.id;
-    //     mappings[idx] = { ...mappings[idx], ...todo };
-    //   }
+    case UPDATE_TODO:
+      mappings = deepCopy(state.todos);
+      const idx = mappings.findIndex((t) => t._id === action.payload._id);
+      if (mappings && mappings[idx]) {
+        let todo = action.payload;
+        todo.dueDate = todo.dueDate.toISOString();
+        delete todo.id;
+        mappings[idx] = { ...mappings[idx], ...todo };
+      }
+      return { ...state, isUpdating: true, todos: mappings };
 
-    //   return { ...state, isUpdating: false, todos: mappings };
+    case UPDATE_TODO_SUCCESSFUL:
+      return { ...state, isUpdating: false};
 
-    // case DELETE_TODO_SUCCESSFUL:
-    //   mappings = state.todos.filter((t) => t._id !== action.payload.id);
-    //   return { ...state, isDeleting: false, todos: mappings };
+    case DELETE_TODO:
+      mappings = state.todos.filter((t) => t._id !== action.payload._id);
+      return { ...state, isDeleting: false, todos: mappings };
 
-    // case DELETE_TODOS_SUCCESSFUL:
-    //   return { ...state, isDeletingAll: false, todos: action.payload };
+    case DELETE_TODO_SUCCESSFUL:
+      return { ...state, isDeleting: false};
 
-    // case DATA_LOADED:
-    //   return { ...state, isLoading: false };
-    
+    case DELETE_TODOS_SUCCESSFUL:
+      return { ...state, isDeletingAll: false, todos: action.payload };
+
     case IS_FETCHING:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: action.payload };
 
     case IS_ADDING:
       return { ...state, isAdding: true };

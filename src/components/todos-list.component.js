@@ -15,6 +15,7 @@ import {
   setSearchTitle,
   setCurrentIndex,
   setCurrentTodo,
+  setIsFetching
 } from "../redux/actions";
 import {
   selectTodos,
@@ -33,8 +34,8 @@ const TodosList = () => {
   const searchTitle = useSelector(selectSearchTitle);
   const getTodos = useQuery(GET_TODOS, {
     onCompleted: data => {
-      console.log('--- fetching all ', data.findAll)
       dispatch(setTodos(data.findAll))
+      dispatch(setIsFetching(false))
     }
   });
 
@@ -45,7 +46,6 @@ const TodosList = () => {
       } else {
         dispatch(setTodos(someData.findOne));
       }
-      // dispatch(setTodos(someData.findOne));
     }
   });
 
@@ -94,12 +94,14 @@ const TodosList = () => {
     // dispatch(setTodos(getTodo({variables: { title: searchTitle }})))
     if (getTodo.loading) return <Spinner color="dark" />;
     if (getTodo.error) return <React.Fragment>Error :(</React.Fragment>;
-    // dispatch(setCurrentTodo(null));
+    dispatch(setCurrentTodo(null));
     // dispatch(setTodos(getTodo.data))
   };
 
-
-  if (getTodos.loading) return <Spinner color="dark" />;
+  if (getTodos.loading) {
+    dispatch(setIsFetching(true))  
+    return <Spinner color="dark" />;
+  }
   if (getTodos.error) return <React.Fragment>Error :(</React.Fragment>;
 
   return (

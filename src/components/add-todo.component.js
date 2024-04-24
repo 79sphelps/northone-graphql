@@ -4,7 +4,8 @@ import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
 import { 
   setTodoToAdd, 
-  setSubmitted
+  setSubmitted,
+  addTodo
 } from "../redux/actions";
 import { selectTodoToAdd, selectSubmitted } from "../redux/selectors";
 import { formatDate } from "../redux/utils";
@@ -60,11 +61,13 @@ const AddTodo = () => {
       status: false,
       dueDate: dateValue,
     };
+   
     createTodo({ variables: { id: '', title: data.title, description: data.description, status: data.status, dueDate: data.dueDate }})
-    localStorage.removeItem("todoToAdd");
     setTimeout(() => {
-      navigate('/')
+      dispatch(addTodo(data))
     }, 500)
+    // localStorage.removeItem("todoToAdd");
+    navigate('/')
   };
 
   const newTodo = () => {

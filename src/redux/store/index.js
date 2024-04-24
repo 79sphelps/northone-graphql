@@ -3,11 +3,11 @@ import {
   applyMiddleware, 
   compose 
 } from "redux";
-// import createSagaMiddleware from "redux-saga";
+import createSagaMiddleware from "redux-saga";
 import apiSaga from "../saga/api-sagas.js";
 import reducers from "../reducers";
 
-// const initialiseSagaMiddleware = createSagaMiddleware();
+const initialiseSagaMiddleware = createSagaMiddleware();
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // // dev tools middleware
@@ -16,7 +16,7 @@ const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducers,
-  // storeEnhancers(applyMiddleware(initialiseSagaMiddleware))
+  storeEnhancers(applyMiddleware(initialiseSagaMiddleware))
   // storeEnhancers(applyMiddleware(initialiseSagaMiddleware), reduxDevTools)
 );
 

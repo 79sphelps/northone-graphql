@@ -1,4 +1,5 @@
 import {
+  IS_FETCHING,
   SET_CURRENT_TODO,
   GET_CURRENT_TODO,
   SET_TODO_TO_ADD,
@@ -17,16 +18,20 @@ import {
   // GET_TODOS,
   // GET_TODOS_SUCCESSFUL,
   // GET_TODO,
-  // ADD_TODO,
-  // ADD_TODO_SUCCESSFUL,
-  // UPDATE_TODO,
-  // UPDATE_TODO_SUCCESSFUL,
-  // DELETE_TODO,
-  // DELETE_TODO_SUCCESSFUL,
-  // DELETE_TODOS,
-  // DELETE_TODOS_SUCCESSFUL,
+  ADD_TODO,
+  ADD_TODO_SUCCESSFUL,
+  UPDATE_TODO,
+  UPDATE_TODO_SUCCESSFUL,
+  DELETE_TODO,
+  DELETE_TODO_SUCCESSFUL,
+  DELETE_TODOS,
+  DELETE_TODOS_SUCCESSFUL,
   API_ERRORED,
 } from "../constants/action.types";
+
+const setIsFetching = (payload) => {
+  return { type: IS_FETCHING, payload}
+}
 
 const setCurrentTodo = (payload) => {
   return { type: SET_CURRENT_TODO, payload };
@@ -100,37 +105,37 @@ const setTodos = (payload) => {
 //   return { type: GET_TODO, payload };
 // };
 
-// const addTodo = (payload) => {
-//   return { type: ADD_TODO, payload };
-// };
+const addTodo = (payload) => {
+  return { type: ADD_TODO, payload };
+};
 
-// const addTodoSuccessful = (payload) => {
-//   return { type: ADD_TODO_SUCCESSFUL, payload };
-// };
+const addTodoSuccessful = (payload) => {
+  return { type: ADD_TODO_SUCCESSFUL, payload };
+};
 
-// const updateTodo = (payload) => {
-//   return { type: UPDATE_TODO, payload };
-// };
+const updateTodo = (payload) => {
+  return { type: UPDATE_TODO, payload };
+};
 
-// const updateTodoSuccessful = (payload) => {
-//   return { type: UPDATE_TODO_SUCCESSFUL, payload };
-// };
+const updateTodoSuccessful = (payload) => {
+  return { type: UPDATE_TODO_SUCCESSFUL, payload };
+};
 
-// const deleteTodo = (payload) => {
-//   return { type: DELETE_TODO, payload };
-// };
+const deleteTodo = (payload) => {
+  return { type: DELETE_TODO, payload };
+};
 
-// const deleteTodoSuccessful = (payload) => {
-//   return { type: DELETE_TODO_SUCCESSFUL, payload };
-// };
+const deleteTodoSuccessful = (payload) => {
+  return { type: DELETE_TODO_SUCCESSFUL, payload };
+};
 
-// const deleteTodos = (payload) => {
-//   return { type: DELETE_TODOS };
-// };
+const deleteTodos = (payload) => {
+  return { type: DELETE_TODOS };
+};
 
-// const deleteTodosSuccessful = (payload) => {
-//   return { type: DELETE_TODOS_SUCCESSFUL, payload };
-// };
+const deleteTodosSuccessful = (payload) => {
+  return { type: DELETE_TODOS_SUCCESSFUL, payload };
+};
 
 const apiErrored = (payload) => {
   return { type: API_ERRORED, payload };
@@ -153,15 +158,16 @@ export {
   setTodos,
   // getTodos,
   // getTodosSuccessful,
-  // deleteTodosSuccessful,
-  // updateTodoSuccessful,
-  // deleteTodoSuccessful,
-  // addTodoSuccessful,
+  deleteTodosSuccessful,
+  updateTodoSuccessful,
+  deleteTodoSuccessful,
+  addTodoSuccessful,
   // findByTitleSuccessful,
   // getTodo,
-  // addTodo,
-  // updateTodo,
-  // deleteTodo,
-  // deleteTodos,
+  setIsFetching,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  deleteTodos,
   apiErrored,
 };

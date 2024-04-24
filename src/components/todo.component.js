@@ -4,7 +4,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
-import { setCurrentTodo, setMessage } from "../redux/actions";
+import { setCurrentTodo, setMessage, updateTodo, deleteTodo } from "../redux/actions";
 import { selectCurrentTodo, selectMessage } from "../redux/selectors";
 import { useMutation } from "@apollo/react-hooks";
 import { EDIT_TODO, DELETE_TODO, GET_TODOS } from "../queries";
@@ -20,10 +20,10 @@ const Todo = () => {
     )
   );
 
-  const [updateTodo] = useMutation(EDIT_TODO, {
+  const [updateTodoMutation] = useMutation(EDIT_TODO, {
     refetchQueries: [{ query: GET_TODOS }],
   });
-  const [deleteTodo] = useMutation(DELETE_TODO, {
+  const [deleteTodoMutation] = useMutation(DELETE_TODO, {
     refetchQueries: [{ query: GET_TODOS }],
   });
 
@@ -52,7 +52,7 @@ const Todo = () => {
     if (status !== null) {
       currentTodo.status = status;
     }
-    updateTodo({
+    updateTodoMutation({
       variables: {
         id: currentTodo._id,
         title: currentTodo.title,
@@ -62,15 +62,17 @@ const Todo = () => {
       },
     });
     setTimeout(() => {
-      navigate('/')
-    }, 500)
+      dispatch(updateTodo(currentTodo))
+    }, 500);
+    navigate('/');
   };
 
   const deleteTodoUnderEdit = () => {
-    deleteTodo({ variables: { id: currentTodo._id } });
+    deleteTodoMutation({ variables: { id: currentTodo._id } });
     setTimeout(() => {
-      navigate('/')
-    }, 500)
+      dispatch(deleteTodo(currentTodo))
+    }, 500);
+    navigate('/')
   };
 
   return (

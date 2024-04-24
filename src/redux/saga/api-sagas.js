@@ -2,23 +2,23 @@
 // import TodoDataService from "../services/todo.service.js";
 // import {
 //   SET_CURRENT_TODO,
-//   // FIND_BY_TITLE,
+//   FIND_BY_TITLE,
 //   SET_CURRENT_INDEX,
 //   SET_MESSAGE,
 //   SET_SUBMITTED,
-//   // GET_TODOS_SUCCESSFUL,
+//   GET_TODOS_SUCCESSFUL,
 //   SET_TODO_TO_ADD,
-//   // GET_TODOS,
-//   // ADD_TODO,
-//   // UPDATE_TODO,
-//   // DELETE_TODO,
-//   // DELETE_TODOS,
-//   // DELETE_TODOS_SUCCESSFUL,
+//   GET_TODOS,
+//   ADD_TODO,
+//   UPDATE_TODO,
+//   DELETE_TODO,
+//   DELETE_TODOS,
+//   DELETE_TODOS_SUCCESSFUL,
 //   API_ERRORED,
-//   // UPDATE_TODO_SUCCESSFUL,
-//   // DELETE_TODO_SUCCESSFUL,
-//   // ADD_TODO_SUCCESSFUL,
-//   // FIND_BY_TITLE_SUCCESSFUL,
+//   UPDATE_TODO_SUCCESSFUL,
+//   DELETE_TODO_SUCCESSFUL,
+//   ADD_TODO_SUCCESSFUL,
+//   FIND_BY_TITLE_SUCCESSFUL,
 //   IS_FETCHING,
 //   IS_DELETING_ALL,
 //   IS_FINDING,
@@ -27,32 +27,32 @@
 //   IS_ADDING,
 // } from "../constants/action.types";
 
-/*
-redux-saga is a library that aims to make application side effects (i.e. asynchronous things like data
-fetching and impure things like accessing the browser cache) easier to manage, more efficient to
-execute, simple to test, and better at handling failures.
+// /*
+// redux-saga is a library that aims to make application side effects (i.e. asynchronous things like data
+// fetching and impure things like accessing the browser cache) easier to manage, more efficient to
+// execute, simple to test, and better at handling failures.
 
-Generators can pause and restart — be exited and re-entered — and actually remember the context/state
-of the function over time.
+// Generators can pause and restart — be exited and re-entered — and actually remember the context/state
+// of the function over time.
 
-Each yield in a generator basically represents an asynchronous step in a more synchronous/sequential
-process — somewhat like await in an async function.
+// Each yield in a generator basically represents an asynchronous step in a more synchronous/sequential
+// process — somewhat like await in an async function.
 
-Basic Flow:
-- a watcherSaga is a saga that watches for an action to be dispatched to the Store, triggering a
-  workerSaga.
-- takeLatest is a helper function provided by redux-saga that will trigger a new workerSaga when
-  it sees an GET_TODOS, while cancelling any previously triggered workerSaga still in process.
-- getTodos simply uses axios to request the todo list from the todos API and returns a Promise
-  for the response.
-- workerSaga attempts to getTodos, using another redux-saga helper function call, and stores the
-  result (a resolved or failed Promise) in a response variable.
-- If getTodos was a success, we extract the todo list from the response and dispatch an
-  GET_TODOS_SUCCESS action with todo list in the payload to the Store, using ANOTHER redux-saga
-  helper function put.
-- If there was an error with getTodos, we let the Store know about it by dispatching an
-  API_ERRORED action with the error.
-*/
+// Basic Flow:
+// - a watcherSaga is a saga that watches for an action to be dispatched to the Store, triggering a
+//   workerSaga.
+// - takeLatest is a helper function provided by redux-saga that will trigger a new workerSaga when
+//   it sees an GET_TODOS, while cancelling any previously triggered workerSaga still in process.
+// - getTodos simply uses axios to request the todo list from the todos API and returns a Promise
+//   for the response.
+// - workerSaga attempts to getTodos, using another redux-saga helper function call, and stores the
+//   result (a resolved or failed Promise) in a response variable.
+// - If getTodos was a success, we extract the todo list from the response and dispatch an
+//   GET_TODOS_SUCCESS action with todo list in the payload to the Store, using ANOTHER redux-saga
+//   helper function put.
+// - If there was an error with getTodos, we let the Store know about it by dispatching an
+//   API_ERRORED action with the error.
+// */
 
 // export default function* watcherSaga() {
 //   yield takeEvery(GET_TODOS, getTodosWorkerSaga);
